@@ -31,11 +31,11 @@ const NewsSummuryCard = ({ news }) => {
                 <Card.Img variant="top" src={image_url} />
                 <Card.Text>
                     {
-                        details.length > 200 ? <p>{details.slice(0, 200) + '...'} <Link to={`news/${_id}`}>Read More</Link></p> : <p>{details}</p>
+                        details.length > 200 ? <p>{details.slice(0, 200) + '...'} <Link to={`/news/${_id}`}>Read More</Link></p> : <p>{details}</p>
                     }
                 </Card.Text>
             </Card.Body>
-            <Card.Footer className="d-flex justiry-content-between align-items-center">
+            <Card.Footer className="d-flex justify-content-between align-items-center">
                 <div>
                     <FaStar className="text-danger me-2"></FaStar>
                     <span>{rating?.number}</span>
