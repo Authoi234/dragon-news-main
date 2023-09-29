@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
-    const {createUser} = useContext(AuthContext)
+    const [error, setError] = useState('')
+    const { createUser } = useContext(AuthContext)
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
@@ -14,15 +16,20 @@ const Register = () => {
         const password = form.password.value;
         console.log(password, photoURL, name, email);
         createUser(email, password)
-        .then(res => {
-            const user = res.user;
-            console.log(user);
-            form.reset();
-        })
-        .catch(e => console.error(e))
+            .then(res => {
+                const user = res.user;
+                console.log(user);
+                setError('')
+                form.reset();
+                
+            })
+            .catch(e => {
+                setError(e.message)
+            })
     }
     return (
         <Form onSubmit={handleSubmit}>
+            <h1 className='text-danger'>Welcome! Please Register</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Your Name</Form.Label>
                 <Form.Control name='name' type="text" placeholder="Enter your name" />
@@ -42,6 +49,12 @@ const Register = () => {
             <Button variant="primary" type="submit">
                 Register
             </Button>
+            <Form.Text className='text-danger'>
+                {error}
+            </Form.Text>
+            <Form.Group>
+            <Form.Text className=''>Already have an account? Please <Link to={'/login'}>Login</Link></Form.Text>
+            </Form.Group>
         </Form>
     );
 };
