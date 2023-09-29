@@ -3,10 +3,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Register = () => {
+    const [accepted, setAccepted] = useState(false);
+    const {createUser, updateUserProfile, verifyEmail} = useContext(AuthContext)
     const [error, setError] = useState('')
-    const { createUser } = useContext(AuthContext)
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
@@ -16,19 +18,42 @@ const Register = () => {
         const password = form.password.value;
         console.log(password, photoURL, name, email);
         createUser(email, password)
-            .then(res => {
+        .then(res => {
                 const user = res.user;
                 console.log(user);
-                setError('')
+                setError('');
                 form.reset();
-                
+                handleUpdateUserProfile(name, photoURL);
+                handleEmailVerification()
+                toast.success('please verify your email adress berfore login')
             })
             .catch(e => {
                 setError(e.message)
             })
-    }
-    return (
-        <Form onSubmit={handleSubmit}>
+        }
+    
+        const handleUpdateUserProfile = (name, photoURL) => {
+            const profile = {
+                displayName: {name},
+                photoURL: {photoURL}
+            }
+            updateUserProfile(profile)
+            .then(() => {})
+            .catch(e => console.error(e.message))
+            
+        }
+
+        const handleEmailVerification = () => {
+            verifyEmail()
+            .then(() => {})
+            .catch(e => console.error(e))
+        }
+
+        const handleAccepted = event => {
+            setAccepted(event.target.checked);
+        }
+        return (
+            <Form onSubmit={handleSubmit}>
             <h1 className='text-danger'>Welcome! Please Register</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Your Name</Form.Label>
@@ -46,14 +71,20 @@ const Register = () => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control name='password' type="password" placeholder="Password" required />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                <Form.Check 
+                type="checkbox" 
+                onClick={handleAccepted}
+                label={<>Accept our <Link to={'/terms'}>terms and conditions</Link></>} />
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={!accepted}>
                 Register
             </Button>
             <Form.Text className='text-danger'>
                 {error}
             </Form.Text>
             <Form.Group>
-            <Form.Text className=''>Already have an account? Please <Link to={'/login'}>Login</Link></Form.Text>
+                <Form.Text className=''>Already have an account? Please <Link to={'/login'}>Login</Link></Form.Text>
             </Form.Group>
         </Form>
     );
