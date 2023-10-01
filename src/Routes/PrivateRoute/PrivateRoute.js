@@ -13,7 +13,7 @@ const PrivateRoute = ({ children }) => {
     const location = useLocation();
 
     if (loading)
-        return <div style={{textAlign: 'center', fontSize: '30px'}}>
+        return <div style={{textAlign: 'center', fontSize: '30px '}}>
             <Spinner animation="border" variant="danger" />
         </div>
     if (!user) {

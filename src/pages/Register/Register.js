@@ -22,9 +22,9 @@ const Register = () => {
                 const user = res.user;
                 console.log(user);
                 setError('');
-                form.reset();
                 handleUpdateUserProfile(name, photoURL);
                 handleEmailVerification()
+                form.reset();
                 toast.success('please verify your email adress berfore login')
             })
             .catch(e => {

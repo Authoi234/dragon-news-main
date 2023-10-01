@@ -14,8 +14,8 @@ const Header = () => {
 
     const handleLogOut = () => {
         logOut()
-        .then(() => {})
-        .catch(error => console.error(error))
+            .then(() => { })
+            .catch(error => console.error(error))
     }
     return (
         <div>
@@ -40,26 +40,26 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">
+                            <>
                                 {
                                     user?.uid
-                                    ? 
-                                   <>
-                                    <span> {user?.displayName} </span>
-                                    <Button variant='danger' onClick={handleLogOut}>Log Out</Button>
-                                   </>
-                                   :
-                                   <>
-                                    <Link className='me-2 text-decoration-none text-danger' to={'/login'}>Login</Link>
-                                    <Link className="text-decoration-none text-danger" to={'/register'}>Register</Link>
-                                   </>                                  
+                                        ?
+                                        <>
+                                            <span> {user?.displayName} </span>
+                                            <Button variant='danger' onClick={handleLogOut}>Log Out</Button>
+                                        </>
+                                        :
+                                        <>
+                                            <Link className='me-2 text-decoration-none text-danger' to={'/login'}>Login</Link>
+                                            <Link className="text-decoration-none text-danger" to={'/register'}>Register</Link>
+                                        </>
                                 }
-                                </Nav.Link>
+                            </>
                             <Nav.Link eventKey={2} href="#memes">
-                                {user?.photoURL ? 
-                                <Image roundedCircle style={{height: '40px'}} src={user.photoURL}></Image>    
-                                :
-                                <FaUser></FaUser>
+                                {user?.photoURL ?
+                                    <Image roundedCircle style={{ height: '40px' }} src={user.photoURL}></Image>
+                                    :
+                                    <FaUser></FaUser>
                                 }
                             </Nav.Link>
                         </Nav>
