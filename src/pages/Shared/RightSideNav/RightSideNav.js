@@ -8,16 +8,17 @@ import { GoogleAuthProvider } from 'firebase/auth';
 
 const RightSideNav = () => {
 
-    const {providerLogin} = useContext(AuthContext);
+    const { providerLogin } = useContext(AuthContext);
 
     const googleProvider = new GoogleAuthProvider()
 
     const handleGoogleSignIn = () => {
         providerLogin(googleProvider)
-        .then(res => {
-            const user = res.user;
-            console.log(user);
-        })
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => console.error(error))
     }
 
     return (
